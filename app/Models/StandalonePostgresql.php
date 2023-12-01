@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Actions\Database\StartPostgresql;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -117,5 +118,10 @@ class StandalonePostgresql extends BaseModel
     public function scheduledBackups()
     {
         return $this->morphMany(ScheduledDatabaseBackup::class, 'database');
+    }
+
+    public function start(): mixed
+    {
+        return StartPostgresql::run($this);
     }
 }

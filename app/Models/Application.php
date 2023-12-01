@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Str;
@@ -12,6 +13,8 @@ use Visus\Cuid2\Cuid2;
 
 class Application extends BaseModel
 {
+    use HasFactory;
+
     protected $guarded = [];
 
     protected static function booted()

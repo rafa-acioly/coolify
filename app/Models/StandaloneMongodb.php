@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Actions\Database\StartMongodb;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -87,6 +88,13 @@ class StandaloneMongodb extends BaseModel
         );
     }
 
+    public function alreadyRunning(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => str($this->status)->startsWith('running'),
+        );
+    }
+
     public function type(): string
     {
         return 'standalone-mongodb';
@@ -132,5 +140,10 @@ class StandaloneMongodb extends BaseModel
     public function scheduledBackups()
     {
         return $this->morphMany(ScheduledDatabaseBackup::class, 'database');
+    }
+
+    public function start(): mixed
+    {
+        return StartMongodb::run($this);
     }
 }

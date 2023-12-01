@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Actions\Database\StartMysql;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -118,5 +119,10 @@ class StandaloneMysql extends BaseModel
     public function scheduledBackups()
     {
         return $this->morphMany(ScheduledDatabaseBackup::class, 'database');
+    }
+
+    public function start(): mixed
+    {
+        return StartMysql::run($this);
     }
 }

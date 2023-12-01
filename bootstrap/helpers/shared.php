@@ -2,6 +2,7 @@
 
 use App\Models\Application;
 use App\Models\ApplicationPreview;
+use App\Models\BaseModel;
 use App\Models\EnvironmentVariable;
 use App\Models\InstanceSettings;
 use App\Models\LocalFileVolume;
@@ -438,7 +439,7 @@ function getServiceTemplates()
     return $services;
 }
 
-function getResourceByUuid(string $uuid, ?int $teamId = null)
+function getResourceByUuid(string $uuid, ?int $teamId = null): ?BaseModel
 {
     $resource = queryResourcesByUuid($uuid);
     if (!is_null($teamId)) {
@@ -450,7 +451,7 @@ function getResourceByUuid(string $uuid, ?int $teamId = null)
         return $resource;
     }
 }
-function queryResourcesByUuid(string $uuid)
+function queryResourcesByUuid(string $uuid): ?BaseModel
 {
     $resource = null;
     $application = Application::whereUuid($uuid)->first();
@@ -467,6 +468,7 @@ function queryResourcesByUuid(string $uuid)
     if ($mysql) return $mysql;
     $mariadb = StandaloneMariadb::whereUuid($uuid)->first();
     if ($mariadb) return $mariadb;
+
     return $resource;
 }
 
